@@ -6,21 +6,22 @@ import AlbumDetail from './AlbumDetail';
 
 // http://rallycoding.herokuapp.com/api/music_albums
 class AlbumList extends Component {
-  state = { albums: [] };
+  // state = { albums: [] };
 
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   this.state = {
-  //     albums: []
-  //   };
-  // }
-  componentWillMount() {
-    console.log('componentWillMount in AlbumList')
+    this.state = {
+      albums: []
+    };
+  }
+  componentDidMount() {
+    console.log('componentWillMount in AlbumList');
     axios.get("https://rallycoding.herokuapp.com/api/music_albums")
       .then( response => {
+        console.log(response.data);
         this.setState({albums: response.data});
-      });
+      }).catch(console.log);
   }
 
   renderAlbums() {
