@@ -1,41 +1,35 @@
 import React, { Component } from "react";
-import {View, Text, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
-import firebase from 'firebase';
+import { createStore, applyMiddleware } from "redux";
+import firebase from "firebase";
+import ReduxThunk from "redux-thunk";
 
 import reducers from "./Reducers";
 
 import LoginForm from "./Components/LoginForm";
 
-interface IStateProps {
-  firebaseApp?: firebase.app.App
-};
-
 class App extends Component {  
-  state: IStateProps = {};
-
   componentWillMount() {
-    if (this.state.firebaseApp) {
-      const config = {
-        apiKey: "AIzaSyAjM3PJznjjRzWjSqA6hxLeq8J64y6B3w0",
-        authDomain: "auth-c0f8b.firebaseapp.com",
-        databaseURL: "https://auth-c0f8b.firebaseio.com",
-        projectId: "auth-c0f8b",
-        storageBucket: "auth-c0f8b.appspot.com",
-        messagingSenderId: "113139609748"
-      };
-      const app = firebase.initializeApp(config);
+    const config = {
+      apiKey: "AIzaSyAjM3PJznjjRzWjSqA6hxLeq8J64y6B3w0",
+      authDomain: "auth-c0f8b.firebaseapp.com",
+      databaseURL: "https://auth-c0f8b.firebaseio.com",
+      projectId: "auth-c0f8b",
+      storageBucket: "auth-c0f8b.appspot.com",
+      messagingSenderId: "113139609748"
+    };
+    const app = firebase.initializeApp(config);
 
-      this.setState({firebaseApp: app});
-    }
+    this.setState({firebaseApp: app});
   }
 
   render() {
     const {container} = styles;
+    const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
     return (
-      <Provider store={createStore(reducers)}>
+      <Provider store={store}>
         <LoginForm />
       </Provider>
     );
