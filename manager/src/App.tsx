@@ -8,18 +8,27 @@ import reducers from "./Reducers";
 
 import LoginForm from "./Components/LoginForm";
 
-class App extends Component {
+interface IStateProps {
+  firebaseApp?: firebase.app.App
+};
+
+class App extends Component {  
+  state: IStateProps = {};
 
   componentWillMount() {
-    const config = {
-      apiKey: "AIzaSyAjM3PJznjjRzWjSqA6hxLeq8J64y6B3w0",
-      authDomain: "auth-c0f8b.firebaseapp.com",
-      databaseURL: "https://auth-c0f8b.firebaseio.com",
-      projectId: "auth-c0f8b",
-      storageBucket: "auth-c0f8b.appspot.com",
-      messagingSenderId: "113139609748"
-    };
-    firebase.initializeApp(config);
+    if (this.state.firebaseApp) {
+      const config = {
+        apiKey: "AIzaSyAjM3PJznjjRzWjSqA6hxLeq8J64y6B3w0",
+        authDomain: "auth-c0f8b.firebaseapp.com",
+        databaseURL: "https://auth-c0f8b.firebaseio.com",
+        projectId: "auth-c0f8b",
+        storageBucket: "auth-c0f8b.appspot.com",
+        messagingSenderId: "113139609748"
+      };
+      const app = firebase.initializeApp(config);
+
+      this.setState({firebaseApp: app});
+    }
   }
 
   render() {

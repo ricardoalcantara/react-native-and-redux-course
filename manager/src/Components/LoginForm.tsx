@@ -1,38 +1,54 @@
 import React, {Component} from "react";
-import { connect, DispatchProp, MapStateToPropsParam } from "react-redux";
+import { Alert } from "react-native";
+import { connect } from "react-redux";
 import { Card, CardSection, Input, Button } from "./Common";
-import { emailChanged } from "../Actions";
+import { emailChanged, passwordChanged } from "../Actions";
 import { ICombinedReducers, IAction } from "../Reducers";
 import { IAuthReducer } from "../Reducers/AuthReducer";
+import { Dispatch, bindActionCreators, ActionCreatorsMapObject } from "redux";
 
-interface ILoginForm {
-  email:string
+interface StateProps {
+  email:string;
+  password:string;
 };
-interface IActions {
-  emailChanged?: (text: string) => IAction
+interface DispatchProps extends ActionCreatorsMapObject {
+  emailChanged: (text: string) => IAction
+  passwordChanged: (text: string) => IAction
 };
 
-declare type LoginFormProps = ILoginForm & IActions
-//& React.Props<undefined> 
-//& MapStateToPropsParam<{}, {}> 
-//& DispatchProp<IActions>
+type LoginFormProps = StateProps & DispatchProps
 
-class LoginForm extends Component<LoginFormProps> {
+class LoginForm extends Component<LoginFormProps, {}> {
   onEmailChange(text: string) {
     this.props.emailChanged(text);
+  }
+
+  onPasswordChange(text: string) {
+    this.props.passwordChanged(text);
   }
 
   render() {
     return (
       <Card>
         <CardSection>
-          <Input label="Email" placeholder="email@gmail.com" onChangeText={this.onEmailChange.bind(this)}/>
+          <Input 
+            label="Email"
+            placeholder="email@gmail.com"
+            onChangeText={this.onEmailChange.bind(this)}
+            value={this.props.email}
+          />
         </CardSection>
         <CardSection>
-          <Input secureTextEntry={true} label="Password" placeholder="password" value={this.props.email}/>
+          <Input 
+            secureTextEntry={true}
+            label="Password"
+            placeholder="password"
+            onChangeText={this.onPasswordChange.bind(this)}
+            value={this.props.password}
+          />
         </CardSection>
         <CardSection>
-          <Button>
+          <Button onPress={() => Alert.alert("Message", `${this.props.email} - ${this.props.password}`)}>
             Login
           </Button>
         </CardSection>
@@ -41,8 +57,16 @@ class LoginForm extends Component<LoginFormProps> {
   }
 }
 
-const mapStateToProps = (state: ICombinedReducers): ILoginForm => {
-  return {email: state.auth.email}
+const mapStateToProps = (state: ICombinedReducers): StateProps => {
+  return {
+    email: state.auth.email,
+    password: state.auth.password
+  };
 }
 
-export default connect<ILoginForm, ILoginForm, IActions>(mapStateToProps, { emailChanged })(LoginForm);
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+  return bindActionCreators<DispatchProps>({ emailChanged, passwordChanged }, dispatch);
+}
+
+// export default connect<StateProps, DispatchProps, undefined>(mapStateToProps, { emailChanged })(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
