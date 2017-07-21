@@ -1,4 +1,3 @@
-import { Action, Reducer } from "redux";
 import { IAction } from "./index";
 import { 
   EMAIL_CHANGED,

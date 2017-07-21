@@ -1,10 +1,16 @@
-import React, {Component} from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, {Component} from "react";
+import { View, StyleSheet, ViewStyle } from "react-native";
 
-declare type CardSectionProps = React.Props<undefined>
+interface ICardSection {
+  style?: any;
+}
+
+declare type CardSectionProps = ICardSection & React.Props<undefined>
 
 const CardSection = (props: CardSectionProps) => {
-  const {containerStyle} = styles;
+  const {containerStyle} = StyleSheet.create({
+    containerStyle: {...styles.containerStyle, ...(props.style ? props.style :  {})}
+  });
   return (
     <View style={containerStyle}>
       {props.children}
@@ -12,16 +18,16 @@ const CardSection = (props: CardSectionProps) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = {
   containerStyle: { 
     borderBottomWidth: 1,
     padding: 5,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    borderColor: '#ddd',
-    position: 'relative',
+    backgroundColor: "#fff",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+    borderColor: "#ddd",
+    position: "relative",
   }
-});
+};
 
 export { CardSection };
