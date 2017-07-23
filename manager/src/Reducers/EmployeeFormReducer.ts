@@ -1,6 +1,7 @@
 import {
  EMPLOYEE_UPDATE,
- EMPLOYEE_CREATED
+ EMPLOYEE_CREATED,
+ EMPLOYEE_SAVE_SUCCESS
 } from "../Actions/types"
 import { IAction } from "./index";
 
@@ -21,7 +22,8 @@ export default (state: IEmployeeFormReducer = INITIAL_STATE, action: IAction): I
         case EMPLOYEE_UPDATE: {
             return {...state, [action.payload.prop]: action.payload.value}
         }
-        case EMPLOYEE_CREATED: {
+        case EMPLOYEE_CREATED: 
+        case EMPLOYEE_SAVE_SUCCESS: {
             return INITIAL_STATE;
         }
         default:

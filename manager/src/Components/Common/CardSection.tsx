@@ -1,15 +1,18 @@
+import _ from "lodash";
 import React, {Component} from "react";
 import { View, StyleSheet, ViewStyle } from "react-native";
 
 interface ICardSection {
-  style?: any;
+  style?: {};
 }
 
 declare type CardSectionProps = ICardSection & React.Props<undefined>
 
 const CardSection = (props: CardSectionProps) => {
+  const style: any = _.merge(styles.containerStyle, props.style);
+
   const {containerStyle} = StyleSheet.create({
-    containerStyle: {...styles.containerStyle, ...(props.style ? props.style :  {})}
+    containerStyle: style
   });
   return (
     <View style={containerStyle}>

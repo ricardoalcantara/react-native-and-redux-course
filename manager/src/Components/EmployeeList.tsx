@@ -29,7 +29,7 @@ class EmployeeList extends Component<EmployeeListProps, IState> {
   }
 
   componentWillReceiveProps(nextProps: EmployeeListProps) {
-    this.createDataSource(this.props);
+    this.createDataSource(nextProps);
   }
 
   createDataSource({ employees }: {employees: any[]}) {

@@ -20,9 +20,7 @@ class App extends Component {
       storageBucket: "auth-c0f8b.appspot.com",
       messagingSenderId: "113139609748"
     };
-    const app = firebase.initializeApp(config);
-
-    this.setState({firebaseApp: app});
+    firebase.initializeApp(config);
   }
 
   render() {

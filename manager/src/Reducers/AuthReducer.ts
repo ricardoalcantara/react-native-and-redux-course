@@ -19,7 +19,6 @@ export interface IAuthReducer {
 const INITIAL_STATE: IAuthReducer = { email: "", password: "", user: null, error: null, loading: false };
 
 const AuthReducer = (state: IAuthReducer = INITIAL_STATE, action: IAction): IAuthReducer => {
-  console.log(action);
   switch(action.type) {
     case EMAIL_CHANGED:
       return {...state, email: action.payload};
